@@ -1,0 +1,76 @@
+﻿@model IEnumerable<TLoaiSp>
+<div class="col-lg-3">
+    <div class="hero__categories">
+        <div class="hero__categories__all">
+            <i class="fa fa-bars"></i>
+            <span>All departments</span>
+        </div>
+        <ul>
+            @foreach (var loaiSp in Model)
+            {
+                var getUrl = "https://localhost:7235/api/Products/" + loaiSp.MaLoai.Trim();
+                <li><a style="cursor:pointer" onclick="showProductsByCategory('@getUrl')">@loaiSp.Loai</a></li>
+                @*<li><a asp-controller="Home" asp-action="SanPhamTheoLoai" asp-route-maloai="@loaiSp.MaLoai">@loaiSp.Loai</a></li>*@
+            }
+        </ul>
+    </div>
+</div>
+<script>
+    function showProductsByCategory(getUrl) {
+        var str = '';
+        $.ajax({
+            type: 'GET',
+            url: getUrl,
+            dataType: 'json',
+            error: function (response) {
+                alert(response);
+            },
+            success: function (data) {
+                $.each(data, function (key, val) {
+                    //str += '<p>' + val.tenSp + '</p>';
+
+                    @*str += `<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" style = "" >
+                        <div class="featured__item" >
+                        <div class="featured__item__pic set-bg" data - setbg="`
+                        var linkImage = "../ProductImages/" + $.trim(val.anhDaiDien);
+                        str += linkImage;
+                        str += `" style = "background-image: url(&quot;`
+                        str += linkImage;
+                        str += `&quot;); " >
+                        <ul class="featured__item__pic__hover" >
+                        <li><a href="#" > <i class="fa fa-heart" > </i></a > </li>
+                        <li> <a href="#" > <i class="fa fa-retweet" > </i></a > </li>
+                        <li> <a href="#" > <i class="fa fa-shopping-cart" > </i></a > </li>
+                        </ul>
+                        </div>
+                        <div class="featured__item__text" >
+                        <h6><a href="/Home/ProductDetail?MaSp="`;
+                        str += $.trim(val.maSp);
+                        str += `" >`;
+                        str += $.trim(val.tenSp);
+                        str += '</a></h6><h5>';
+                        str += val.giaNhoNhat + '';
+                        str += ` đồng </h5></div></div></div>`;
+                        //console.log(val)*@
+
+                        str += `<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" style = "">
+                                <div class="featured__item">
+                                        <div class="featured__item__pic set-bg" data-setbg= "../ProductImages/${val.anhDaiDien}" style="background-image: url('../ProductImages/${val.anhDaiDien}');">
+                                        <ul class="featured__item__pic__hover">
+                                            <li><a href="#"> <i class="fa fa-heart"> </i></> </li>
+                                                <li> <a href="#"> <i class="fa fa-retweet"> </i></a> </li>
+                                                    <li> <a href="#"> <i class="fa fa-shopping-cart"> </i></a> </li>
+                                                        </ul>
+                                                        </div>
+                                                        <div class="featured__item__text">
+                                                            <h6><a href="/Home/ProductDetail?MaSp=${val.maSp}">${val.tenSp}</a></h6>
+                                                                <h5>${val.giaNhoNhat} VND </h5>
+                                                                </div>
+                                                                </div>
+                                                                </div>`
+                });
+                $('#displayProducts').html(str);
+            }
+        });
+    }
+</script>

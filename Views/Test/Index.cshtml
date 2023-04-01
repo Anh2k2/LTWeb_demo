@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Index</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="displayProducts"></div>
+    </div>
+    <script>
+        $('document').ready(fuction(){
+            var str='';
+            $.getJSON('https://localhost:7074/api/ProductsAPI', function(data){
+                $each(data, fuction(key, val){
+                    str += '<p>' + val.tenSp + '</p>';
+                })
+                $('#displayProducts').html(str);
+            })
+        })
+    </script>
+</body>
+</html>
